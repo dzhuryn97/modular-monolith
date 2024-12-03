@@ -1,0 +1,8 @@
+controllers:
+    resource:
+        path: ../src/Shared/Http/Controller/
+        namespace: App\Http\Controller
+    type: attribute
+    
+auth:
+    path: /api/auth
