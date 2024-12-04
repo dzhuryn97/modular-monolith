@@ -3,8 +3,10 @@
 namespace App\User\Service;
 
 use App\User\Entity\User;
+use App\User\Event\UserCreatedEvent;
 use App\User\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -14,6 +16,7 @@ class UserService
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -41,6 +44,8 @@ class UserService
 
         $this->em->persist($user);
         $this->em->flush();
+
+        $this->eventDispatcher->dispatch(new UserCreatedEvent($user->getId()));
 
         return $user;
     }

@@ -4,8 +4,10 @@ namespace App\Message;
 
 use App\Bill\Client\ClientInterface as BillClient;
 use App\Message\Entity\Message;
+use App\Message\Event\MessageCreatedEvent;
 use App\User\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Ramsey\Uuid\UuidInterface;
 
 class MessageService
@@ -14,6 +16,7 @@ class MessageService
         private readonly BillClient $billClient,
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
+        private readonly EventDispatcherInterface $eventDispatcher,
         private readonly int $messagePrice = 50,
     ) {
     }
@@ -32,6 +35,8 @@ class MessageService
         $this->billClient->chargeMoney($userId, $this->messagePrice);
 
         $this->em->flush();
+
+        $this->eventDispatcher->dispatch(new MessageCreatedEvent($message->getId()));
 
         return $message;
     }
