@@ -4,16 +4,13 @@ namespace App\User\Service;
 
 use App\User\Entity\User;
 use App\User\Event\UserCreatedEvent;
-use App\User\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly EventDispatcherInterface $eventDispatcher,
@@ -34,7 +31,6 @@ class UserService
         $user->setEmail($email);
         $user->setCityId($cityId);
         $user->setAge($age);
-        $user->setMoneyAmount(10000);
 
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
@@ -48,15 +44,5 @@ class UserService
         $this->eventDispatcher->dispatch(new UserCreatedEvent($user->getId()));
 
         return $user;
-    }
-
-    public function updateMoneyAmount(
-        UuidInterface $userId,
-        int $amount,
-    ) {
-        $user = $this->userRepository->findOrFail($userId);
-        $user->setMoneyAmount($amount);
-
-        $this->em->flush();
     }
 }

@@ -24,6 +24,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/User/Entity'
                 prefix: 'App\User\Entity'
                 alias: User
+            Bill:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Bill/Entity'
+                prefix: 'App\Bill\Entity'
+                alias: User
             Message:
                 type: attribute
                 is_bundle: false

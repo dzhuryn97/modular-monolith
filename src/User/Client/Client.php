@@ -21,18 +21,12 @@ class Client implements ClientInterface
         return $this->transformToUserDTO($user);
     }
 
-    public function updateMoneyAmount(UuidInterface $userId, int $amount): void
-    {
-        $this->userService->updateMoneyAmount($userId, $amount);
-    }
-
     private function transformToUserDTO(\App\User\Entity\User $user): UserDTO
     {
         $dto = new UserDTO()
         ;
         $dto->id = $user->getId();
         $dto->name = $user->getFirstName().' '.$user->getLastName();
-        $dto->moneyAmount = $user->getMoneyAmount();
 
         return $dto;
     }

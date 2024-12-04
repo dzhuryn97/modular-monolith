@@ -9,5 +9,4 @@ class UserDTO
     public UuidInterface $id;
 
     public string $name;
-    public int $moneyAmount;
 }

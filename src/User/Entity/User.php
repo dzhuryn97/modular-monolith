@@ -23,8 +23,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-    #[ORM\Column]
-    private ?int $moneyAmount = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
@@ -60,18 +58,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(string $firstName): static
     {
         $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getMoneyAmount(): ?int
-    {
-        return $this->moneyAmount;
-    }
-
-    public function setMoneyAmount(int $moneyAmount): static
-    {
-        $this->moneyAmount = $moneyAmount;
 
         return $this;
     }

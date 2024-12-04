@@ -57,10 +57,6 @@ class UserResource
     public ?string $password = null;
 
     #[ApiProperty]
-    #[Groups(['user:read'])]
-    public ?int $moneyAmount = null;
-
-    #[ApiProperty]
     #[Groups(['user:read', 'user:write'])]
     public ?int $age = null;
     #[ApiProperty]
@@ -75,7 +71,6 @@ class UserResource
         $userResource->lastName = $user->getFirstName();
         $userResource->email = $user->getEmail();
         $userResource->cityId = $user->getCityId();
-        $userResource->moneyAmount = $user->getMoneyAmount();
         $userResource->age = $user->getAge();
 
         return $userResource;
