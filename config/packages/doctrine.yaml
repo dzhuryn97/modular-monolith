@@ -36,6 +36,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Message/Entity'
                 prefix: 'App\Message\Entity'
                 alias: Message
+            Analytic:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Analytic'
+                prefix: 'App\Analytic'
+                alias: Message
         controller_resolver:
             auto_mapping: false
 

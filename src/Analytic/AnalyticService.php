@@ -3,33 +3,45 @@
 namespace App\Analytic;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Ramsey\Uuid\UuidInterface;
 
 class AnalyticService
 {
-    private \Doctrine\DBAL\Connection $conn;
+    private \Doctrine\ORM\EntityRepository $repository;
 
     public function __construct(
-        EntityManagerInterface $em,
-        private readonly DenormalizerInterface $denormalizer,
+        private readonly EntityManagerInterface $em,
     ) {
-        $this->conn = $em->getConnection();
+        $this->repository = $em->getRepository(Statistic::class);
     }
 
-    public function getStatistic()
+    public function createStatistic(
+        UuidInterface $userId,
+        string $userName,
+    ): Statistic {
+        $statistic = new Statistic($userId);
+        $statistic->setUserName($userName);
+
+        $this->em->persist($statistic);
+        $this->em->flush();
+
+        return $statistic;
+    }
+
+    public function incrementStatistic(
+        UuidInterface $userId,
+    ): void {
+        $statistic = $this->repository->find($userId);
+        $statistic->incrementMessageCount();
+
+        $this->em->flush();
+    }
+
+    /**
+     * @return Statistic[]
+     */
+    public function getStatistic(): array
     {
-        $sql = <<<SQL
-            SELECT u.id as user_id, u.name as user_name, COUNT(m.id) AS message_count
-            FROM "user" u
-                     LEFT JOIN message m ON m.author_id = u.id
-            GROUP BY u.id, u.name;
-        SQL;
-
-        $stmt = $this->conn->prepare($sql);
-        $result = $stmt->executeQuery();
-
-        $data = $result->fetchAllAssociative();
-
-        return $this->denormalizer->denormalize($data, StatisticDTO::class.'[]');
+        return $this->repository->findAll();
     }
 }

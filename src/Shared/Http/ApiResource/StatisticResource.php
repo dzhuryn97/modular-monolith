@@ -5,7 +5,7 @@ namespace App\Shared\Http\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\Analytic\StatisticDTO;
+use App\Analytic\Statistic;
 use App\Shared\Http\Provider\StatisticResourceProvider;
 
 #[ApiResource(
@@ -25,13 +25,13 @@ class StatisticResource
     public ?string $userName = null;
     public ?string $messageCount = null;
 
-    public static function fromStatisticDTO(StatisticDTO $dto): self
+    public static function fromStatistic(Statistic $statistic): self
     {
         $self = new self();
 
-        $self->userId = $dto->userId;
-        $self->userName = $dto->userName;
-        $self->messageCount = $dto->messageCount;
+        $self->userId = $statistic->getUserId();
+        $self->userName = $statistic->getUserName();
+        $self->messageCount = $statistic->getMessageCount();
 
         return $self;
     }
