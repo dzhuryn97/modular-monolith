@@ -20,7 +20,8 @@ class CreateUserResourceProcessor implements ProcessorInterface
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
         $user = $this->userService->createUser(
-            name: $data->name,
+            firstName: $data->firstName,
+            lastName: $data->lastName,
             email: $data->email,
             password: $data->password,
             cityId: $data->cityId,

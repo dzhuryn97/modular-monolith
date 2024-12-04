@@ -15,14 +15,16 @@ class UserService
     }
 
     public function createUser(
-        string $name,
+        string $firstName,
+        string $lastName,
         string $email,
         string $password,
         ?int $cityId = null,
         ?int $age = null,
     ): User {
         $user = new User();
-        $user->setName($name);
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
         $user->setEmail($email);
         $user->setCityId($cityId);
         $user->setAge($age);

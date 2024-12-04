@@ -42,7 +42,11 @@ class UserResource
 
     #[ApiProperty]
     #[Groups(['user:read', 'user:write'])]
-    public ?string $name = null;
+    public ?string $firstName = null;
+
+    #[ApiProperty]
+    #[Groups(['user:read', 'user:write'])]
+    public ?string $lastName = null;
 
     #[ApiProperty]
     #[Groups(['user:read', 'user:write'])]
@@ -67,7 +71,8 @@ class UserResource
     {
         $userResource = new self();
         $userResource->id = $user->getId();
-        $userResource->name = $user->getName();
+        $userResource->firstName = $user->getFirstName();
+        $userResource->lastName = $user->getFirstName();
         $userResource->email = $user->getEmail();
         $userResource->cityId = $user->getCityId();
         $userResource->moneyAmount = $user->getMoneyAmount();
