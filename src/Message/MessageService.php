@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-use App\Bill\Service\BillService;
+use App\Bill\Client\ClientInterface as BillClient;
 use App\Message\Entity\Message;
 use App\User\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,7 +11,7 @@ use Ramsey\Uuid\UuidInterface;
 class MessageService
 {
     public function __construct(
-        private readonly BillService $billService,
+        private readonly BillClient $billClient,
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
         private readonly int $messagePrice = 50,
@@ -29,7 +29,7 @@ class MessageService
         $message->setMessageText($messageText);
         $this->em->persist($message);
 
-        $this->billService->chargeMoney($userId, $this->messagePrice);
+        $this->billClient->chargeMoney($userId, $this->messagePrice);
 
         $this->em->flush();
 

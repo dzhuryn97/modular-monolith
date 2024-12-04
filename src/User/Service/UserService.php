@@ -3,12 +3,15 @@
 namespace App\User\Service;
 
 use App\User\Entity\User;
+use App\User\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserService
 {
     public function __construct(
+        private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $passwordHasher,
     ) {
@@ -40,5 +43,15 @@ class UserService
         $this->em->flush();
 
         return $user;
+    }
+
+    public function updateMoneyAmount(
+        UuidInterface $userId,
+        int $amount,
+    ) {
+        $user = $this->userRepository->findOrFail($userId);
+        $user->setMoneyAmount($amount);
+
+        $this->em->flush();
     }
 }
