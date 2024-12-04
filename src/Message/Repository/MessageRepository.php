@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Message;
+namespace App\Message\Repository;
 
 use App\Message\Entity\Message;
 use App\Shared\Exception\EntityNotFoundException;

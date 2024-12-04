@@ -6,13 +6,14 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use App\Message\Entity\Message;
-use App\Message\MessageRepository;
-use App\Shared\Http\ApiResource\MessageResource;
+use App\Message\Repository\MessageRepository;
+use App\Shared\Http\Factory\MessageResourceFactory;
 
 class MessageResourceProvider implements ProviderInterface
 {
     public function __construct(
         private readonly MessageRepository $messageRepository,
+        private readonly MessageResourceFactory $messageResourceFactory,
     ) {
     }
 
@@ -23,7 +24,7 @@ class MessageResourceProvider implements ProviderInterface
         }
         $message = $this->messageRepository->findOrFail($uriVariables['id']);
 
-        return MessageResource::fromMessage($message);
+        return $this->messageResourceFactory->createFromMessage($message);
     }
 
     private function provideCollection(array $context)
@@ -49,7 +50,7 @@ class MessageResourceProvider implements ProviderInterface
         $messages = $query->get();
 
         return array_map(function (Message $message) {
-            return MessageResource::fromMessage($message);
+            return $this->messageResourceFactory->createFromMessage($message);
         }, $messages);
     }
 }

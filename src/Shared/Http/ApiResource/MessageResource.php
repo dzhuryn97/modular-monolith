@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\QueryParameter;
-use App\Message\Entity\Message;
 use App\Shared\Http\Processor\CreateMessageProcessor;
 use App\Shared\Http\Provider\MessageResourceProvider;
 use Ramsey\Uuid\UuidInterface;
@@ -49,14 +48,4 @@ class MessageResource
 
     #[Groups(['message:read', 'message:write'])]
     public ?string $messageText = null;
-
-    public static function fromMessage(Message $message): self
-    {
-        $res = new self();
-        $res->id = $message->getId();
-        $res->messageText = $message->getMessageText();
-        $res->author = UserResource::fromUser($message->getAuthor());
-
-        return $res;
-    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Shared\DataFixtures;
 
-use App\Message\MessageService;
+use App\Message\Service\MessageService;
 use App\User\Entity\User;
 use App\User\Repository\UserRepository;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -24,7 +24,7 @@ class MessageFixtures extends BaseFixture implements DependentFixtureInterface
             /** @var User $user */
             $user = $this->faker->randomElement($users);
             $this->messageService->publishMessage(
-                userId: $user->getId(),
+                authorId: $user->getId(),
                 messageText: $this->faker->text(500)
             );
         }

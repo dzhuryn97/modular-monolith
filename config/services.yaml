@@ -20,7 +20,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Message\MessageService:
+    App\Message\Service\MessageService:
         arguments:
             $messagePrice: 100
             

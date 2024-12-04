@@ -2,13 +2,12 @@
 
 namespace App\Message\Entity;
 
-use App\User\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-#[ORM\Entity()]
+#[ORM\Entity]
 class Message
 {
     #[ORM\Id]
@@ -19,7 +18,7 @@ class Message
     private ?string $messageText = null;
 
     #[ORM\ManyToOne]
-    private ?User $author = null;
+    private Author $author;
 
     public function __construct()
     {
@@ -50,12 +49,12 @@ class Message
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): Author
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): static
+    public function setAuthor(Author $author): static
     {
         $this->author = $author;
 

@@ -4,7 +4,7 @@ namespace App\Message\EventListener;
 
 use App\Message\Event\MessageCreatedEvent;
 use App\Message\IntegrationEvent\MessageCreatedIntegrationEvent;
-use App\Message\MessageRepository;
+use App\Message\Repository\MessageRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
